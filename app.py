@@ -1,14 +1,13 @@
-
 import streamlit as st
-from backend import speech_to_text, generate_image, detect_emotion
+from backend import speech_to_text, detect_emotion
 
 st.set_page_config(page_title="Synthétiseur de rêves", page_icon="🌙")
 
 st.title("🌙 Synthétiseur de rêves")
 st.markdown(
-    "Bienvenue dans la suite de ta nuit .\n\n"
+    "Et si ta nuit n'était pas terminée ?\n\n"
     "🎤 Envoie un enregistrement de ton rêve...\n"
-    "🖼 Et on te génère une image fidèle à ton subconscient."
+    "🧠 Et découvre ce qu'il révèle de ton subconscient."
 )
 
 uploaded_file = st.file_uploader("📂 Upload un fichier audio (format .wav, .mp3 ou .m4a)", type=["wav", "mp3", "m4a"])
@@ -29,11 +28,7 @@ if uploaded_file:
                 st.markdown("### 💭 Émotion détectée :")
                 st.success(emotion)
 
-                image_url = generate_image(transcription)
-                st.markdown("### 🎨 Image générée :")
-                st.image(image_url, caption="Interprétation onirique", use_container_width=True)
-
             except Exception as e:
                 st.error(f"Erreur lors du traitement : {e}")
 else:
-    st.info("Commence par uploader un fichier audio.")
+    st.info("Commence par uploader un fichier audio pour continuer ton rêve.")

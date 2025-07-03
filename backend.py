@@ -1,5 +1,4 @@
 import os
-import openai
 from groq import Groq
 import json
 from transformers import pipeline
@@ -13,7 +12,6 @@ except:
 try:
     import streamlit as st
     os.environ["GROQ_API_KEY"] = st.secrets["GROQ_API_KEY"]
-    os.environ["OPENAI_API_KEY"] = st.secrets["OPENAI_API_KEY"]
     os.environ["MISTRAL_API_KEY"] = st.secrets["MISTRAL_API_KEY"]
 except:
     pass
@@ -32,18 +30,8 @@ def speech_to_text(audio_path: str, language: str = "fr") -> str:
         )
     return transcription
 
-def generate_image(prompt: str) -> str:
-    openai.api_key = os.environ["OPENAI_API_KEY"]
-    response = openai.Image.create(
-        prompt=prompt,
-        n=1,
-        size="512x512"
-    )
-    return response["data"][0]["url"]
-
 emotion_classifier = pipeline("sentiment-analysis", model="j-hartmann/emotion-english-distilroberta-base")
 
 def detect_emotion(text: str) -> str:
     result = emotion_classifier(text)
     return max(result, key=lambda x: x['score'])['label']
-
