@@ -31,14 +31,14 @@ def speech_to_text(audio_path: str, language: str = "fr") -> str:
         )
     return transcription
 
+
 def generate_image(prompt: str) -> str:
     url = "https://clipdrop-api.co/text-to-image/v1"
     headers = {
         "x-api-key": os.environ["CLIPDROP_API_KEY"]
     }
     data = {
-        "prompt": prompt,
-        "aspect_ratio": "square"
+        "prompt": prompt
     }
 
     response = requests.post(url, headers=headers, json=data)
