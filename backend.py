@@ -19,15 +19,15 @@ except:
 def speech_to_text(audio_path: str, language: str = "fr") -> str:
     client = Groq(api_key=os.environ["GROQ_API_KEY"])
     with open(audio_path, "rb") as file:
-        transcription = client.audio.transcriptions.create(
-            file=file,
-            model="whisper-large-v3-turbo",
-            prompt="Extrait le texte de l'audio de la manière la plus factuelle possible",
-            response_format="text",
-            timestamp_granularities=["word", "segment"],
-            language=language,
-            temperature=0.0
-        )
+      transcription = client.audio.transcriptions.create(
+    file=file,
+    model="whisper-large-v3-turbo",
+    prompt="Extrait le texte de l'audio de la manière la plus factuelle possible",
+    response_format="text",
+    language=language,
+    temperature=0.0
+)
+
     return transcription
 
 emotion_classifier = pipeline("sentiment-analysis", model="j-hartmann/emotion-english-distilroberta-base")
