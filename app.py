@@ -17,20 +17,24 @@ if uploaded_file:
     if st.button("✨ Synthétiser mon rêve"):
         with st.spinner("🧠 Analyse en cours..."):
             try:
+                # Sauvegarder l’audio temporairement
                 with open("temp_audio.m4a", "wb") as f:
                     f.write(uploaded_file.read())
 
+                # Transcription du rêve
                 transcription = speech_to_text("temp_audio.m4a", language="fr")
                 st.markdown("### 📝 Texte transcrit :")
                 st.code(transcription)
 
+                # Détection de l’émotion
                 emotion = detect_emotion(transcription)
                 st.markdown("### 💭 Émotion détectée :")
                 st.success(emotion)
 
-                image_url = generate_image(transcription)
+                # Génération de l’image (ClipDrop retourne une image encodée en base64)
+                image_data_url = generate_image(transcription)
                 st.markdown("### 🎨 Image générée :")
-                st.image(image_url, caption="Interprétation onirique", use_container_width=True)
+                st.image(image_data_url, caption="Interprétation onirique", use_container_width=True)
 
             except Exception as e:
                 st.error(f"Erreur lors du traitement : {e}")
