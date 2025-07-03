@@ -4,7 +4,6 @@ from groq import Groq
 import json
 from transformers import pipeline
 
-# ✅ Gestion hybride des clés API
 try:
     from dotenv import load_dotenv
     load_dotenv()
@@ -15,10 +14,10 @@ try:
     import streamlit as st
     os.environ["GROQ_API_KEY"] = st.secrets["GROQ_API_KEY"]
     os.environ["OPENAI_API_KEY"] = st.secrets["OPENAI_API_KEY"]
+    os.environ["MISTRAL_API_KEY"] = st.secrets["MISTRAL_API_KEY"]
 except:
     pass
 
-# 🔊 Transcription audio avec l’API Groq (Whisper)
 def speech_to_text(audio_path: str, language: str = "fr") -> str:
     client = Groq(api_key=os.environ["GROQ_API_KEY"])
     with open(audio_path, "rb") as file:
@@ -33,7 +32,6 @@ def speech_to_text(audio_path: str, language: str = "fr") -> str:
         )
     return transcription
 
-# 🖼 Génération d’image via OpenAI
 def generate_image(prompt: str) -> str:
     openai.api_key = os.environ["OPENAI_API_KEY"]
     response = openai.Image.create(
@@ -43,7 +41,6 @@ def generate_image(prompt: str) -> str:
     )
     return response["data"][0]["url"]
 
-# 💭 Détection d’émotion via modèle HuggingFace
 emotion_classifier = pipeline("sentiment-analysis", model="j-hartmann/emotion-english-distilroberta-base")
 
 def detect_emotion(text: str) -> str:
